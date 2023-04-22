@@ -3,7 +3,7 @@
 
 
 def pascal_triangle(n):
-    """ returns a list of lists of integers 
+    """ returns a list of lists of integers
         representing the Pascals triangle of n
     """
     if n <= 0:
@@ -12,8 +12,7 @@ def pascal_triangle(n):
     for x in range(1, n):
         row = [1]
         for y in range(1, x):
-            row.append(triangle[x - 1][y - 1] + triangle[x -1][y])
+            row.append(triangle[x - 1][y - 1] + triangle[x - 1][y])
         row.append(1)
         triangle.append(row)
-        
     return triangle
