@@ -2,6 +2,7 @@
 """script that reads stdin line by line and computes metrics"""
 import sys
 
+
 if __name__ == '__main__':
 
     filesize, count = 0, 0
