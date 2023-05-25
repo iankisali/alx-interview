@@ -1,50 +1,51 @@
 #!/usr/bin/python3
-"""program that solves the N queens problem"""
+"""N queens"""
 import sys
 
 if len(sys.argv) != 2:
-    print("Usage: nqueens N")
+    print('Usage: nqueens N')
     exit(1)
 
 try:
-    number_queen = int(sys.argv[1])
+    n_q = int(sys.argv[1])
 except ValueError:
-    print("N must be a number")
-    exit(1)
-if number_queen < 4:
-    print("N must be at least 4")
+    print('N must be a number')
     exit(1)
 
-
-def attack_queen(square1, queen):
-    """Attacking queen method"""
-    (row1, column1) = square1
-    (row2, column2) = queen
-    return (row1 == row2) or (column1 == column2) or\
-        abs(row1 - row2) == abs(column1 - column2)
+if n_q < 4:
+    print('N must be at least 4')
+    exit(1)
 
 
-def safe_queen(square2, queens):
-    """safe queen method"""
+def solve_nqueens(n):
+    '''Solving nqueens method'''
+    if n == 0:
+        return [[]]
+    inner_solution = solve_nqueens(n - 1)
+    return [solution + [(n, i + 1)]
+            for i in range(n_q)
+            for solution in inner_solution
+            if safe_queen((n, i + 1), solution)]
+
+
+def attack_queen(square, queen):
+    '''attacking queen'''
+    (row1, col1) = square
+    (row2, col2) = queen
+    return (row1 == row2) or (col1 == col2) or\
+        abs(row1 - row2) == abs(col1 - col2)
+
+
+def safe_queen(sqr, queens):
+    '''Safe queen'''
     for queen in queens:
-        if attack_queen(square2, queen):
+        if attack_queen(sqr, queen):
             return False
     return True
 
 
-def nqueens(n):
-    """Solving nqueens"""
-    if n == 0:
-        return [[]]
-    inner = nqueens(n - 1)
-    return [sol + [(n, i + 1)]
-            for i in range(number_queen)
-            for sol in inner
-            if safe_queen((n, i + 1), sol)]
-
-
-for answer in reversed(nqueens(number_queen)):
+for answer in reversed(solve_nqueens(n_q)):
     result = []
-    for i in [list(i) for i in answer]:
-        result.append([x - 1 for x in i])
+    for p in [list(p) for p in answer]:
+        result.append([i - 1 for i in p])
     print(result)
